@@ -59,7 +59,7 @@ class RegisterController extends Controller
 
                 // Simpan ke storage/app/public/profile_pictures
                 Storage::disk('public')->put("profile_pictures/{$fileName}", $decodedImage);
-                $photoPath = "profile_pictures/{$fileName}";
+                $photoPath = "{$fileName}";
             }
         }
 
