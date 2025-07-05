@@ -26,7 +26,7 @@ class RegisterController extends Controller
             'photo' => 'nullable|string',
             'alamat' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $photoPath = null;
