@@ -12,6 +12,11 @@ Route::get('/', function () {
 Route::resource('/login', LoginController::class)->only(['index', 'store']);
 Route::resource('/register', RegisterController::class)->only(['index', 'store']);
 
+Route::post('/logout', [LoginController::class, 'destroy'])
+      ->middleware('auth')
+      ->name('logout');
+
+
 // Check-in routes
 Route::get('/qrcode', function () {
     return view('checkin.qrcode');
