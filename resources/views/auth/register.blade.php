@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <title>Gym - Register</title>
     <style>
         body {
-            background-image: url('https://i.pinimg.com/736x/95/77/ee/9577ee1b2c853ffbc761335349acab89.jpg');
+            background-image: url('https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -16,18 +17,19 @@
         }
     </style>
 </head>
+
 <body class="">
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded shadow-md w-full max-w-4xl mx-auto">
             <h1 class="text-2xl font-bold mb-6 text-center">Register</h1>
             @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
+                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             <form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                 @csrf
@@ -37,17 +39,22 @@
                         <label for="photo" class="block text-sm font-medium text-gray-700 mb-1">Ambil Selfie</label>
                         <div id="cameraContainer" class="mb-2">
                             <video id="video" autoplay playsinline class="w-full rounded mb-2 mt-2"></video>
-                            <button type="button" id="captureBtn" class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600">Ambil Selfie</button>
+                            <button type="button" id="captureBtn"
+                                class="w-full py-2 px-4 bg-indigo-500 text-white rounded hover:bg-indigo-600">Ambil
+                                Selfie</button>
                         </div>
                         <canvas id="canvas" class="hidden"></canvas>
                         <input type="hidden" name="photo" id="photoInput">
                         <div id="previewContainer" class="hidden">
                             <img id="preview" class="w-full rounded mt-2" alt="Preview">
                             <div class="flex gap-2 mt-2">
-                            <button type="button" id="retakeBtn" class="w-1/2 py-2 px-4 bg-gray-400 text-white rounded hover:bg-gray-500">Ambil Ulang</button>
+                                <button type="button" id="retakeBtn"
+                                    class="w-1/2 py-2 px-4 bg-gray-400 text-white rounded hover:bg-gray-500">Ambil
+                                    Ulang</button>
                             </div>
                         </div>
-                        <small class="text-gray-500 block mt-2">Izinkan akses kamera dan selfie untuk upload gambar.</small>
+                        <small class="text-gray-500 block mt-2">Izinkan akses kamera dan selfie untuk upload
+                            gambar.</small>
                     </div>
 
                     {{-- Form Input --}}
@@ -71,7 +78,8 @@
                                 placeholder="Masukkan alamat lengkap">
                         </div>
                         <div>
-                            <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+                            <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                                Lahir</label>
                             <input type="date" id="tanggal_lahir" name="tanggal_lahir" required
                                 class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 shadow-sm transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:bg-white focus:outline-none hover:border-indigo-400">
                         </div>
@@ -81,8 +89,17 @@
                                 class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 shadow-sm transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:bg-white focus:outline-none hover:border-indigo-400"
                                 placeholder="Masukkan password">
                         </div>
-                        <button type="submit"
-                            class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300 focus:outline-none transition">
+                        <div>
+                            <label for="password_confirmation"
+                                class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" required
+                                class="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 shadow-sm transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:bg-white focus:outline-none hover:border-indigo-400"
+                                placeholder="Masukkan ulang password">
+                            <p id="password-error" class="text-red-500 text-sm mt-1 hidden">Password tidak cocok.</p>
+                        </div>
+
+                        <button type="submit" id="submitBtn" disabled
+                            class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-300 focus:outline-none transition opacity-50 cursor-not-allowed">
                             Register
                         </button>
                     </div>
@@ -93,10 +110,10 @@
 
     <script>
         // Format Input
-        document.getElementById('no_hp').addEventListener('input', function (e) {
+        document.getElementById('no_hp').addEventListener('input', function(e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-        document.getElementById('tanggal_lahir').addEventListener('input', function (e) {
+        document.getElementById('tanggal_lahir').addEventListener('input', function(e) {
             const inputDate = new Date(this.value);
             const today = new Date();
             if (inputDate > today) {
@@ -105,14 +122,14 @@
                 this.setCustomValidity('');
             }
         });
-        document.getElementById('password').addEventListener('input', function (e) {
+        document.getElementById('password').addEventListener('input', function(e) {
             if (this.value.length < 8) {
                 this.setCustomValidity('Password harus minimal 8 karakter.');
             } else {
                 this.setCustomValidity('');
             }
         });
-        document.querySelector('form').addEventListener('submit', function (e) {
+        document.querySelector('form').addEventListener('submit', function(e) {
             const photoInput = document.getElementById('photoInput');
             if (!photoInput.value) {
                 e.preventDefault();
@@ -121,7 +138,7 @@
         });
 
         // Kamera dan Capture Selfie
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('video');
             const canvas = document.getElementById('canvas');
             const captureBtn = document.getElementById('captureBtn');
@@ -134,13 +151,15 @@
 
             // Minta akses kamera
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function (s) {
+                navigator.mediaDevices.getUserMedia({
+                        video: true
+                    })
+                    .then(function(s) {
                         stream = s;
                         video.srcObject = stream;
                         video.play();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         alert('Tidak dapat mengakses kamera: ' + err);
                     });
             } else {
@@ -148,7 +167,7 @@
             }
 
             // Tangkap gambar dari video dengan resolusi maksimal 100x100
-            captureBtn.addEventListener('click', function () {
+            captureBtn.addEventListener('click', function() {
                 const aspectRatio = video.videoWidth / video.videoHeight;
                 let targetWidth = 100;
                 let targetHeight = 100;
@@ -172,7 +191,7 @@
             });
 
             // Ambil ulang gambar
-            retakeBtn.addEventListener('click', function () {
+            retakeBtn.addEventListener('click', function() {
                 previewContainer.classList.add('hidden');
                 cameraContainer.classList.remove('hidden');
                 photoInput.value = '';
@@ -180,12 +199,46 @@
             });
 
             // Optional: stop camera when leaving page
-            window.addEventListener('beforeunload', function () {
+            window.addEventListener('beforeunload', function() {
                 if (stream) {
                     stream.getTracks().forEach(track => track.stop());
                 }
             });
+
+            // Validasi password dan konfirmasi password
+            const passwordInput = document.getElementById('password');
+            const confirmInput = document.getElementById('password_confirmation');
+            const errorText = document.getElementById('password-error');
+            const submitBtn = document.getElementById('submitBtn');
+
+            function validatePasswordMatch() {
+                const password = passwordInput.value;
+                const confirm = confirmInput.value;
+
+                if (confirm === "") {
+                    errorText.classList.add('hidden');
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    return;
+                }
+
+                if (password !== confirm) {
+                    errorText.classList.remove('hidden');
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    errorText.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            // Jalankan validasi setiap user input
+            passwordInput.addEventListener('input', validatePasswordMatch);
+            confirmInput.addEventListener('input', validatePasswordMatch);
+
         });
     </script>
 </body>
+
 </html>
