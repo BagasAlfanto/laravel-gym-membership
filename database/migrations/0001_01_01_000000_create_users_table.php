@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('no_hp')->unique();
-            $table->timestamp('no_hp_verified_at')->nullable();
-            $table->string('photo')->nullable();
-            $table->string('alamat')->nullable();
-            $table->date('tanggal_lahir')->nullable();
+            $table->string('alamat');
+            $table->text('photo');
+            $table->date('tanggal_lahir');
             $table->string('password');
-            $table->string('role')->default('member');
-            $table->string('status')->default('active');
+            $table->enum('role', ['member', 'admin'])->default('member');
+            $table->enum('status_akun', ['active', 'inactive'])->default('inactive');
             $table->rememberToken();
             $table->timestamps();
         });
