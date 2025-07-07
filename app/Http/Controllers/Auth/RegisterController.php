@@ -76,7 +76,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        // This is just a placeholder, implement your registration logic here
-        return redirect()->route('login.index')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
     }
 }
