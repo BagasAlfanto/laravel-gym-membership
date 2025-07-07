@@ -15,7 +15,7 @@ class LoginController extends Controller
     }
 
     //Proses autentikasi user
-    public function store(Request $request)
+     public function store(Request $request)
     {
         // Validasi input
         $credentials = $request->validate([
@@ -23,16 +23,31 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Percobaan login (kolom "no_hp" & "password")
+        // Cek apakah user terautentikasi
         if (Auth::attempt($credentials)) {
-            // Regenerasi session untuk mencegah fixation
             $request->session()->regenerate();
 
-            return redirect()->intended('/qrcode');
+            $user = Auth::user();
+
+            // Redirect berdasarkan role
+            if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard')->with('success', 'Berhasil login sebagai admin.');
+            }
+
+            // Redirect default jika bukan admin
+            return redirect()->route('checkin.index')->with('success', 'Berhasil login.');
+        }
+
+        // Jika autentikasi gagal
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        if (!$user) {
+            throw ValidationException::withMessages([
+            'no_hp' => __('Akun tidak ditemukan'),
+            ]);
         }
 
         throw ValidationException::withMessages([
-            'no_hp' => __('auth.failed'),  
+            'password' => __('Password salah'),
         ]);
     }
 
@@ -45,6 +60,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.index')->with('success', 'Berhasil logout.');
+        return redirect()->route('login')->with('success', 'Berhasil logout.');
     }
 }
