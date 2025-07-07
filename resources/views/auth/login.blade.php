@@ -58,6 +58,7 @@
             </form>
         </div>
     </div>
+    <script type="module" src="{{ Vite::asset('resources/js/auth/login.js') }}"></script>
 </body>
 
 </html>
