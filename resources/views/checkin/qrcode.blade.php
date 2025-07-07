@@ -20,22 +20,27 @@
 
         .card-container {
             perspective: 1000px;
+            /* kedalaman 3D */
         }
 
         .card {
             position: relative;
             width: 200px;
-            height: 250px;
+            height: 300px;
             transform-style: preserve-3d;
+            /* penting untuk flip */
             transition: transform 0.6s;
+            /* animasi halus */
         }
 
-        .front, .back {
+        .front,
+        .back {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 8px;
             backface-visibility: hidden;
+            /* sembunyikan sisi belakang */
             top: 0;
             left: 0;
             background-color: white;
@@ -45,9 +50,11 @@
         }
 
         .back {
-            transform: rotateY(180deg);=
+            transform: rotateY(180deg);
+            /* balik agar muncul saat di‑flip */
         }
-=
+
+        /* dipicu via JS */
         .card.flipped {
             transform: rotateY(180deg);
         }
@@ -76,7 +83,7 @@
             <div class="w-full bg-gray-50 rounded-lg p-4 mb-4 shadow-inner">
                 <div class="flex justify-between text-sm mb-1">
                     <span class="font-medium text-gray-700">Membership</span>
-                    <span class="text-gray-600">10 Jan 2025 - 10 Jan 2026</span>
+                    <span class="text-gray-600">10 Jan 2025 – 10 Jan 2026</span>
                 </div>
                 <div class="flex justify-between text-sm mb-1">
                     <span class="font-medium text-gray-700">Package</span>
@@ -84,7 +91,7 @@
                 </div>
                 <div class="flex justify-between text-sm mb-1">
                     <span class="font-medium text-gray-700">Active Period</span>
-                    <span class="text-gray-600">(17 Jun - 17 Jul 2025)</span>
+                    <span class="text-gray-600">(17 Jun – 17 Jul 2025)</span>
                 </div>
                 <div class="flex justify-between text-sm">
                     <span class="font-medium text-gray-700">Quota Private Trainer</span>
