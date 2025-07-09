@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\PersonalTrainers;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PersonalTrainersSeeder extends Seeder
 {
