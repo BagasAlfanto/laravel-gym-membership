@@ -6,26 +6,26 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
-    return view('landing.index');
+    return view('pages.landing');
 });
 
 Route::middleware('guest')->group(function (){
     // Authentication routes
     Route::resource('/register', RegisterController::class)->only(['index', 'store']);
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+    Route::resource('/login', LoginController::class)->only(['index', 'store']);
+
 });
 
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', function () {
-        return view('dashboard.index');
+        return view('pages.dashboard');
     })->name('admin.dashboard')
     ->middleware([RoleMiddleware::class, 'role:admin']);
 
     // Checkin
     Route::get('/checkin', function () {
-        return view('checkin.qrcode');
+        return view('pages.qrcode');
     })->name('checkin.index')
     ->middleware([RoleMiddleware::class, 'role:member']);
 
