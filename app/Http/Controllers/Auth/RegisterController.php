@@ -14,7 +14,7 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        return view('auth.register');
+        return view('pages.register');
     }
 
     public function store(Request $request)
@@ -39,7 +39,7 @@ class RegisterController extends Controller
                 $base64 = substr($base64, strpos($base64, ',') + 1);
                 $extension = strtolower($type[1]); // jpg, png, etc.
 
-                if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                if (!in_array($extension, ['webp'])) {
                     return back()->withErrors(['photo' => 'Format foto tidak didukung.']);
                 }
 
@@ -76,6 +76,6 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login.index')->with('success', 'Registration successful! Please log in.');
     }
 }
