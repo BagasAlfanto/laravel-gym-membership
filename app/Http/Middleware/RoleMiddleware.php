@@ -15,11 +15,6 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check user role
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
-
         $user = auth()->user();
         $role = $user->role;
 
@@ -40,7 +35,5 @@ class RoleMiddleware
                     ->with('error', 'Akses ditolak. Member hanya dapat mengakses halaman check-in.');
             }
         }
-
-        return redirect()->route('login')->with('error', 'Kamu tidak memiliki akses ke halaman ini.');
     }
 }
