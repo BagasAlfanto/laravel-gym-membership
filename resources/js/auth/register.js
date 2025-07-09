@@ -115,20 +115,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     captureBtn.addEventListener("click", function () {
         const aspectRatio = video.videoWidth / video.videoHeight;
-        let targetWidth = 100;
-        let targetHeight = 100;
+        let targetWidth = 200;
+        let targetHeight = 200;
 
         if (aspectRatio > 1) {
-            targetHeight = Math.round(100 / aspectRatio);
+            targetHeight = Math.round(200 / aspectRatio);
         } else {
-            targetWidth = Math.round(100 * aspectRatio);
+            targetWidth = Math.round(200 * aspectRatio);
         }
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
         canvas.getContext("2d").drawImage(video, 0, 0, targetWidth, targetHeight);
 
-        const dataUrl = canvas.toDataURL("image/png");
+        const dataUrl = canvas.toDataURL("image/webp", 0.8);
         photoInput.value = dataUrl;
         preview.src = dataUrl;
 
