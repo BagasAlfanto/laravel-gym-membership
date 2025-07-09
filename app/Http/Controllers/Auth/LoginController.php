@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('auth.login');
+        return view('pages.login');
     }
 
     //Proses autentikasi user
@@ -23,32 +23,39 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Cek apakah user terautentikasi
+        // Cek apakah user terdaftar
+        $user = Auth::getProvider()->retrieveByCredentials(['no_hp' => $credentials['no_hp']]);
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'no_hp' => __('Akun tidak ditemukan'),
+            ]);
+        }
+
+        // Cek apakah akun user sudah aktif
+        if ($user->status_akun !== 'active') {
+            return redirect()->route('login.index')
+            ->withErrors(['no_hp' => 'Akun Anda tidak aktif. Silakan aktivasi melalui admin.']);
+        }
+
+        // Cek apakah password benar
+        if (!Auth::validate($credentials)) {
+            throw ValidationException::withMessages([
+                'password' => __('Password salah'),
+            ]);
+        }
+
+        // Autentikasi user
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = Auth::user();
-
             // Redirect berdasarkan role
             if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard')->with('success', 'Berhasil login sebagai admin.');
+                return redirect()->route('admin.dashboard')->with('success', 'Berhasil login sebagai admin.');
             }
 
             // Redirect default jika bukan admin
             return redirect()->route('checkin.index')->with('success', 'Berhasil login.');
         }
-
-        // Jika autentikasi gagal
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-        if (!$user) {
-            throw ValidationException::withMessages([
-            'no_hp' => __('Akun tidak ditemukan'),
-            ]);
-        }
-
-        throw ValidationException::withMessages([
-            'password' => __('Password salah'),
-        ]);
     }
 
     //Logout user
@@ -60,6 +67,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'Berhasil logout.');
+        return redirect()->route('login.index')->with('success', 'Berhasil logout.');
     }
 }
